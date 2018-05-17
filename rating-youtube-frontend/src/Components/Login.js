@@ -1,7 +1,25 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { login } from '../actions/actions'
 
 
 class Login extends React.Component{
+
+  state = {
+		username: "",
+		password: ""
+	}
+
+	handleChange = (event) => {
+		this.setState({
+			[event.target.name]: event.target.value
+		})
+	}
+
+	handleSubmit = (event) => {
+		this.props.login(this.state.username, this.state.password)
+		.then(()=> this.props.history.push("/videos"))
+	}
 
 render(){
   return(
@@ -11,15 +29,15 @@ render(){
             <h3 className="text-center default-text py-3"><i className="fa fa-lock "></i> Login:</h3>
             <div className="md-form">
               <i className="fa fa-user prefix grey-text"></i>
-              <input type="text" id="inputLGEx" className="form-control" name="username" placeholder="Your Username" />
+              <input type="text" id="inputLGEx" className="form-control" name="username" value={this.state.username} onChange={this.handleChange} placeholder="Your Username" />
 
             </div>
             <div className="md-form">
                 <i className="fa fa-lock prefix grey-text"></i>
-                <input type="password" id="defaultForm-pass" className="form-control" name="password" placeholder='Your Password'/>
+                <input type="password" id="defaultForm-pass" className="form-control" name="password" value={this.state.password} onChange={this.handleChange} placeholder='Your Password'/>
             </div>
             <div className="text-center">
-              <button type="button" className="btn btn-danger"> Submit</button>
+              <button type="button" className="btn btn-danger" onClick={this.handleSubmit}> Submit</button>
 
             </div>
           </div>
@@ -28,4 +46,4 @@ render(){
   )}
 }
 
-export default Login;
+export default connect(null, { login })(Login)

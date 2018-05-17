@@ -37,7 +37,7 @@ class Video extends React.Component {
   // {emoji.getUnicode("heart_eyes")}
 
   render() {
-    console.log(emoji.getUnicode("heart_eyes"));
+    console.log(this.props);
     return(
       <div>
         <YouTube
@@ -49,6 +49,7 @@ class Video extends React.Component {
           onPause={this._onPause}
         />
         <i onClick={this.handleClick}>{emoji.getUnicode("heart_eyes")}</i>
+        <button type="button" className="btn btn-danger" onClick={this.props.back}>Back</button>
       </div>
     )
   }

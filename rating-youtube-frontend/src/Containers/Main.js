@@ -3,10 +3,11 @@ import Videos from '../Components/Videos'
 import {Route, withRouter} from 'react-router-dom'
 import NavBar from '../Components/NavBar';
 import Login from '../Components/Login';
-import SignUp from '../Components/SignUp';
-import {Button} from 'semantic-ui-react'
+import Signup from '../Components/Signup';
+// import {Button} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {getUser, logout} from '../actions/actions'
+import Video from '../Components/Video';
 
 class Main extends React.Component {
 
@@ -14,9 +15,11 @@ class Main extends React.Component {
 		if (localStorage.getItem("token")){
 			this.props.getUser()
 			.then(() => {
-				this.props.history.push('/home')
+				this.props.history.push('/videos')
 			})
-		}
+		} else {
+      this.props.history.push('/login')
+    }
 	}
 
   render() {
@@ -25,15 +28,16 @@ class Main extends React.Component {
       <header className="App-header">
       <div>
       <NavBar/>
-      </div>
-      </header>
-      <Button onClick={() => {
+      {localStorage.token ? <button onClick={() => {
         this.props.logout()
         this.props.history.push('/login')
-      }}>Logout</Button>
+      }}>Logout</button> : null}
+      </div>
+      </header>
       <Route exact path="/videos" component={Videos} />
-      <Route exact path="/login" render={renderProps => <Login/> } />
-      <Route exact path="/signup" render={renderProps => <SignUp/> }/>
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/signup" component={Signup}/>
+      <Route exact path="/video" component={Signup}/>
       </div>
 
   );

@@ -28,12 +28,12 @@ export function login(username, password){
 	}
 }
 
-export function signup(username, password){
+export function signup(email, name, username, password){
 	return (dispatch) => {
 		return fetch(API_URL + "/signup", {
 			method: "POST",
-			headers: headers,
-			body: JSON.stringify({username, password})
+			headers: authedHeaders(),
+			body: JSON.stringify({email, name, username, password})
 		})
 		.then(res => res.json())
 		.then(userData => {

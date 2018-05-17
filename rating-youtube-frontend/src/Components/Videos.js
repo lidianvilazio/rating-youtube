@@ -1,41 +1,53 @@
 import React from 'react'
+import VideoItem from './VideoItem'
+import Search from "./Search"
+import YTSearch from 'youtube-api-search'
 import Video from './Video'
 
-// const apiKey = 'AIzaSyAQxqKgl5xQiSkt2hLAldd1hZ5kf8B5eqc'
+const API_KEY = 'AIzaSyAQxqKgl5xQiSkt2hLAldd1hZ5kf8B5eqc'
 
 
 class Videos extends React.Component {
 
 
   state = {
-    videos: []
+    videos: [],
+    loading: false,
+    clicked: false,
+    only: ''
   }
 
-  componentDidMount() {
-    this.VideoList()
+  searchYT = term => {
+    this.setState({loading: true})
+    YTSearch({key: API_KEY, term }, videos => {
+      this.setState({videos: videos, loading: false})
+    })
   }
 
-  // fetchfetchVideo = () => {
-  //   fetch('http://localhost:3000/api/v1/videos')
-  //   .then(r => r.json())
-  //   .then(json => this.setState({videos: json}))
-  // }
+  handleSubmit = term => {
+    this.searchYT(term)
+  }
 
-  VideoList = () => {
-  fetch('https://www.googleapis.com/youtube/v3/search?key=AIzaSyAQxqKgl5xQiSkt2hLAldd1hZ5kf8B5eqc&part=snippet,id&order=date&maxResults=20')
-    .then(resp => resp.json())
-    .then((json) => this.setState({videos: json.items}));
+  handleClick = (video) => {
+    this.setState({clicked: true, only: video}, () => {
+      console.log(video);
+    })
+  }
+
+  back = () => {
+    this.setState({clicked: false, only: ''})
   }
 
   render() {
     const videos = this.state.videos.map(video => {
       if(video.id.videoId !== undefined) {
-        return <Video key={video.id.videoId} video={video}/>
+        return <VideoItem key={video.etag} video={video} handleClick={this.handleClick}/>
       }
     })
     return(
       <div>
-        {videos}
+        <Search handleSubmit={this.handleSubmit} loading={this.state.loading}/>
+        {this.state.clicked ? <Video video={this.state.only}  back={this.back}/> :videos}
       </div>
     )
   }

@@ -6,14 +6,14 @@ const NavBar = () => {
   return (
     <div className="nav nav-tabs" id="nav-tab" role="tablist">
 
-    {(localStorage.auth) ?
+    {(localStorage.token) ?
       <React.Fragment>
-        <NavLink className="nav-item nav-link" to="/videos" exact activeStyle={{background: "#2BBBAD"}}>Home</NavLink>
+        <NavLink className="nav-item nav-link" to="/videos" exact>Videos</NavLink>
       </React.Fragment>
         :
         <React.Fragment>
-          <NavLink className="nav-item nav-link" to="/login" exact activeStyle={{background: '#2BBBAD'}}>Log In</NavLink>
-          <NavLink className="nav-item nav-link" to="/signup" exact activeStyle={{background: '#2BBBAD'}}>SignUp</NavLink>
+          <NavLink className="nav-item nav-link" to="/login" exact>Log In</NavLink>
+          <NavLink className="nav-item nav-link" to="/signup" exact>Signup</NavLink>
         </React.Fragment>
       }
     </div>);
