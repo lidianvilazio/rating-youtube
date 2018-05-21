@@ -37,7 +37,7 @@ render(){
                 <input type="password" id="defaultForm-pass" className="form-control" name="password" value={this.state.password} onChange={this.handleChange} placeholder='Your Password'/>
             </div>
             <div className="text-center">
-              <button type="button" className="btn btn-danger" onClick={this.handleSubmit}> Submit</button>
+              <button type="button" className="btn button" onClick={this.handleSubmit}> Submit</button>
 
             </div>
           </div>

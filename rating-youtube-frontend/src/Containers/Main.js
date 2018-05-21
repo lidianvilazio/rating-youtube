@@ -4,10 +4,9 @@ import {Route, withRouter} from 'react-router-dom'
 import NavBar from '../Components/NavBar';
 import Login from '../Components/Login';
 import Signup from '../Components/Signup';
-// import {Button} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {getUser, logout} from '../actions/actions'
-import Video from '../Components/Video';
+
 
 class Main extends React.Component {
 

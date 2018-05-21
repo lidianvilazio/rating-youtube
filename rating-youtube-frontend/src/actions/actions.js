@@ -72,3 +72,14 @@ export function logout(){
 		type: "LOGOUT"
 	}
 }
+
+export function getEmotions(){
+	return (dispatch) => {
+		return fetch(API_URL + "/emotions")
+		.then(res => res.json())
+		.then(emotions => {
+			console.log(emotions);
+			dispatch({type: "GET_EMOTIONS", payload: emotions})
+		})
+	}
+}

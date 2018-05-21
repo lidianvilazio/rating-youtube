@@ -15,7 +15,7 @@ class Search extends React.Component {
     return(
       <div>
         <input type="text" id="defaultForm-pass" className="form-control" name="search" onChange={this.handleChange} value={this.state.search} placeholder=''/>
-        <button type="button" className="btn btn-danger" onClick={() => {this.props.handleSubmit(this.state.search)}}> {this.props.loading ? "Loading...": "Search"}</button>
+        <button type="button" className="btn button" onClick={() => {this.props.handleSubmit(this.state.search)}}> {this.props.loading ? "Loading...": "Search"}</button>
       </div>
     )
   }

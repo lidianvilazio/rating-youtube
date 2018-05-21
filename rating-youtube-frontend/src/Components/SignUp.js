@@ -20,13 +20,14 @@ class Signup extends React.Component {
 
 	handleSubmit = (event) => {
 		if (this.state.password === this.state.passwordConfirmation){
+      
+      this.props.signup(this.state.email, this.state.name, this.state.username, this.state.password)
+      .then(()=> this.props.history.push("/videos"))
 
 		} else {
 			alert("Password should be the same!")
 		}
 
-		this.props.signup(this.state.email, this.state.name, this.state.username, this.state.password)
-		.then(()=> this.props.history.push("/videos"))
 	}
 
 render(){
@@ -57,7 +58,7 @@ render(){
               <input type="password" id="password" className="form-control" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Your Password"/>
             </div>
             <div className="text-center">
-              <button className="btn btn-danger" onClick={this.handleSubmit}>Submit</button>
+              <button className="btn button" onClick={this.handleSubmit}>Submit</button>
             </div>
           </div>
         </div>

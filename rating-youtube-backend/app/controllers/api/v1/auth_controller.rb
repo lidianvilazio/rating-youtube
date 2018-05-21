@@ -1,7 +1,6 @@
 class Api::V1::AuthController < ApplicationController
 
   def login
-    puts params
    @user = User.find_by(username: params[:username])
    if @user && @user.authenticate(params[:password])
      token = encode({user_id: @user.id})

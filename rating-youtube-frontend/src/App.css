@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   background-color: #ddd;
-  
+
 }
 
 .App-header {
@@ -48,4 +48,36 @@
 }
 .info-text {
     color: #33b5e5;
+}
+
+.card-style {
+  padding: 5;
+}
+
+.img-style {
+  align-self: center;
+  height: 360px;
+  width: 480px
+}
+
+.title-style {
+  font-size: 20px;
+  margin-bottom: 5px
+}
+
+.chanel-style {
+  font-size: 12px;
+  margin-bottom: 5px;
+  color: #777;
+  align-self: flex-end;
+}
+
+.description-style {
+  font-size: 11px;
+  align-self: center;
+
+}
+
+.button {
+  background-color: #E62117;
 }

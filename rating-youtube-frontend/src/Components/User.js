@@ -16,9 +16,9 @@ class User extends React.Component {
   }
 
   render() {
-    // console.log(this.state.user);
+    console.log(this.state.user);
     return(
-      <div>hello</div>
+      <div>{this.state.user.username}</div>
     )
   }
 }

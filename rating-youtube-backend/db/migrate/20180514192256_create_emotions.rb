@@ -4,6 +4,7 @@ class CreateEmotions < ActiveRecord::Migration[5.1]
       t.integer :user_id
       t.integer :video_id
       t.string :emotion
+      t.integer :time
 
       t.timestamps
     end
