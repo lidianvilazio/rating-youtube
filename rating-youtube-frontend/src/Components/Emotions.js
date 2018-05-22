@@ -1,40 +1,17 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import {cleanTimeEmotion, timeEmotion} from '../actions/actions'
 
-class Emotions extends React.Component {
-
-  state = {
-    emotions: []
-  }
-
-  componentDidMount() {
-    this.fetchEmotions()
-  }
-
-  fetchEmotions = () => {
-    fetch('http://localhost:3000/api/v1/emotions')
-    .then( r => r.json())
-    .then(json => this.setState({emotions: json}))
-  }
-
-  filterEmotions = (video) => {
-    return this.state.emotions.filter(emotion => emotion.video_id === video.id).sort((a, b) => a.time - b.time);
-  }
-
-  render() {
-
-    let emotions = []
-
-    if(this.props.video) {
-      emotions = this.filterEmotions(this.props.video)
-    }
-    //
-    // console.log(this.state.emotions);
+const Emotions = (props) => {
 
     return(
-      <div>helloo</div>
+      <div>{props.timedEmotion.length > 0 ? <h1>{props.timedEmotion.length} {props.timedEmotion.length === 1 ? "person" : "people"} liked this moment </h1> : <h1> Be the first to like this moment</h1>}</div>
     )
-  }
 
 }
 
-export default Emotions;
+function mapStateToProps(state){
+	return {...state.userReducer}
+}
+
+export default connect(mapStateToProps,{cleanTimeEmotion, timeEmotion} )(Emotions);

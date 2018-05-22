@@ -74,12 +74,100 @@ export function logout(){
 }
 
 export function getEmotions(){
+	const token = localStorage.getItem("token")
 	return (dispatch) => {
-		return fetch(API_URL + "/emotions")
+		return fetch(API_URL + "/emotions", {
+			headers: {
+				"Authorization": token
+			}
+		})
 		.then(res => res.json())
 		.then(emotions => {
-			console.log(emotions);
-			dispatch({type: "GET_EMOTIONS", payload: emotions})
+			dispatch({
+				type: "GET_EMOTIONS",
+				payload: emotions
+			})
 		})
+	}
+}
+
+export function getVideos() {
+	const token = localStorage.getItem("token")
+	return (dispatch) => {
+		return fetch(API_URL + "/videos", {
+			headers: {
+				"Authorization": token
+			}
+		})
+		.then(res => res.json())
+		.then(videos => {
+			dispatch({
+				type: "GET_VIDEOS",
+				payload: videos
+			})
+		})
+	}
+}
+
+export function handleVideo(video){
+	const etag = video.etag
+	return (dispatch) => {
+		return fetch(API_URL + "/videos#create", {
+			method: "POST",
+			headers: authedHeaders(),
+			body: JSON.stringify({etag: etag})
+		})
+		.then(res => res.json())
+		.then(video => {
+			dispatch({
+				type: "CREATE_VIDEO",
+				payload: video
+			})
+		})
+	}
+}
+
+export function handleFunny(video, time, user){
+	const etag = video.etag
+	return (dispatch) => {
+		return fetch(API_URL + "/emotions#create", {
+			method: "POST",
+			headers: authedHeaders(),
+			body: JSON.stringify({etag: etag, user_id: user.id, time: time})
+		})
+		.then(res => res.json())
+		.then(emotion => {
+			dispatch({
+				type: "ADD_EMOTION",
+				payload: emotion
+			})
+		})
+	}
+}
+
+export function singleVideo(video) {
+	return {
+		type: "SINGLE_VIDEO",
+		payload: video
+	}
+}
+
+export function filterEmotions(emotions, currentVideo) {
+	return {
+		type: "FILTERED_EMOTION",
+		payload: emotions.filter(emotion => emotion.video_id === currentVideo.id).sort((a, b) => a.time - b.time)
+	}
+}
+
+export function timeEmotion(emotion) {
+	return {
+		type: 'TIME_EMOTION',
+		payload: emotion
+	}
+}
+
+export function cleanTimeEmotion() {
+	return {
+		type: 'CLEAN_TIME_EMOTION'
 	}
 }

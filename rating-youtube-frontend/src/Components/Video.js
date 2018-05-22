@@ -1,29 +1,44 @@
 import React from 'react'
 import YouTube from 'react-youtube';
 import Emotions from './Emotions'
+import {getUser, cleanTimeEmotion, timeEmotion, getEmotions, getVideos, handleFunny, filterEmotions} from '../actions/actions'
+import {connect} from 'react-redux'
+
+let setTime
 
 class Video extends React.Component {
 
   state = {
     liked: false,
     e: null,
-    pause: true
+    pause: true,
+    v: null,
+  }
+
+  componentDidMount() {
+    this.props.getVideos()
   }
 
   handleClick = () => {
     if(this.state.pause === false) {
       this.setState({liked: true}, () => {
+        clearTimeout(setTime)
         this._onPlay(this.state.e)
       })
     }
   }
 
   _onPlay = (e) => {
-    // setInterval(function(){ console.log(Math.floor(e.target.getCurrentTime())) }, 1000);
+    const emotions = this.props.filterEmotions(this.props.emotions, this.props.currentVideo)
+    const time = this.props.timeEmotion
+    const clean = this.props.cleanTimeEmotion
+    setTime = setInterval(function(){
+      const emo = emotions.payload.filter(emotion => emotion.time === Math.floor(e.target.getCurrentTime()))
+      time(emo)
+     }, 1000);
     this.setState({e: e},() => {
       if(this.state.liked) {
-        // console.log(Math.floor(e.target.getCurrentTime()));
-        this.props.handleFunny(this.props.video, Math.floor(e.target.getCurrentTime()))
+        this.props.handleFunny(this.props.single, Math.floor(e.target.getCurrentTime()), this.props.currentUser)
         this.setState({liked: false})
       }
       this.setState({pause: false})
@@ -31,30 +46,17 @@ class Video extends React.Component {
   }
 
   _onPause = (e) => {
+    clearTimeout(setTime)
     this.setState({pause: true})
-  }
-
-  getVideo = () => {
-    return this.props.allVideos.filter(video => video.etag === this.props.video.etag)[0]
-  }
-
-  filterEmotions = (video) => {
-    return this.state.emotions.filter(emotion => emotion.video_id === video.id).sort((a, b) => a.time - b.time);
   }
 
   render() {
 
-    console.log("emotions",this.props.emotions);
-    console.log("videos",this.props.allVideos);
-    let video
-
-    this.props.allVideos.length > 0 ? video = this.getVideo() : null
-
     return(
       <div className="col-md-8  mb-4 col-centered mx-auto form-white">
-      <Emotions video={video}/>
+        <Emotions/>
         <YouTube
-          videoId={this.props.video.id.videoId}
+          videoId={this.props.single.id.videoId}
           onReady={this._onReady}
           liked={this.state.liked}
           onClick={this.handleClick}
@@ -70,4 +72,8 @@ class Video extends React.Component {
   }
 }
 
-export default Video;
+function mapStateToProps(state){
+	return {...state.userReducer}
+}
+
+export default connect(mapStateToProps, {getUser, cleanTimeEmotion, timeEmotion, handleFunny, getEmotions, getVideos, filterEmotions})(Video);
