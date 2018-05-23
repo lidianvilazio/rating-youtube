@@ -18,12 +18,13 @@ export function login(username, password){
 		})
 		.then(res => res.json())
 		.then(userData => {
-			console.log("LOGGING IN", userData)
-			localStorage.setItem("token", userData.jwt)
-			dispatch({
-				type: "LOGIN_USER",
-				payload: userData
-			})
+			if(userData.jwt){
+				localStorage.setItem("token", userData.jwt)
+				dispatch({
+					type: "LOGIN_USER",
+					payload: userData
+				})
+			}
 		})
 	}
 }
@@ -37,15 +38,17 @@ export function signup(email, name, username, password){
 		})
 		.then(res => res.json())
 		.then(userData => {
-			console.log("LOGGING IN", userData)
-			localStorage.setItem("token", userData.jwt)
-			dispatch({
-				type: "LOGIN_USER",
-				payload: userData
-			})
+			if(userData.jwt){
+				localStorage.setItem("token", userData.jwt)
+				dispatch({
+					type: "LOGIN_USER",
+					payload: userData
+				})
+			}
 		})
 	}
 }
+
 
 export function getUser(){
 
@@ -83,6 +86,7 @@ export function getEmotions(){
 		})
 		.then(res => res.json())
 		.then(emotions => {
+			console.log(emotions);
 			dispatch({
 				type: "GET_EMOTIONS",
 				payload: emotions
@@ -137,6 +141,7 @@ export function handleFunny(video, time, user){
 		})
 		.then(res => res.json())
 		.then(emotion => {
+			console.log(emotion);
 			dispatch({
 				type: "ADD_EMOTION",
 				payload: emotion
@@ -169,5 +174,19 @@ export function timeEmotion(emotion) {
 export function cleanTimeEmotion() {
 	return {
 		type: 'CLEAN_TIME_EMOTION'
+	}
+}
+
+export function addingEmotion(emotion) {
+	return {
+		type: 'ADDING_EMOTION',
+		payload: emotion
+	}
+}
+
+export function setTime(time) {
+	return {
+		type: 'SET_TIME',
+		payload: time
 	}
 }

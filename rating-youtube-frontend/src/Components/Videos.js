@@ -30,6 +30,7 @@ class Videos extends React.Component {
   }
 
   handleSubmit = term => {
+    clearTimeout(this.props.setTheTime)
     this.searchYT(term)
     this.setState({clicked: false})
   }

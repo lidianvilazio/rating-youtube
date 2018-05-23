@@ -1,10 +1,11 @@
 import React from 'react'
-import YouTube from 'react-youtube';
+import YouTube from 'react-youtube'
+import { ActionCable } from 'react-actioncable-provider'
 import Emotions from './Emotions'
-import {getUser, cleanTimeEmotion, timeEmotion, getEmotions, getVideos, handleFunny, filterEmotions} from '../actions/actions'
-import {connect} from 'react-redux'
+import { getUser, setTime, addingEmotion, cleanTimeEmotion, timeEmotion, getEmotions, getVideos, handleFunny, filterEmotions } from '../actions/actions'
+import { connect } from 'react-redux'
 
-let setTime
+let setThisTime
 
 class Video extends React.Component {
 
@@ -22,7 +23,7 @@ class Video extends React.Component {
   handleClick = () => {
     if(this.state.pause === false) {
       this.setState({liked: true}, () => {
-        clearTimeout(setTime)
+        clearTimeout(this.props.setTheTime)
         this._onPlay(this.state.e)
       })
     }
@@ -32,10 +33,11 @@ class Video extends React.Component {
     const emotions = this.props.filterEmotions(this.props.emotions, this.props.currentVideo)
     const time = this.props.timeEmotion
     const clean = this.props.cleanTimeEmotion
-    setTime = setInterval(function(){
+    setThisTime = setInterval(function(){
       const emo = emotions.payload.filter(emotion => emotion.time === Math.floor(e.target.getCurrentTime()))
       time(emo)
      }, 1000);
+    this.props.setTime(setThisTime)
     this.setState({e: e},() => {
       if(this.state.liked) {
         this.props.handleFunny(this.props.single, Math.floor(e.target.getCurrentTime()), this.props.currentUser)
@@ -46,15 +48,31 @@ class Video extends React.Component {
   }
 
   _onPause = (e) => {
-    clearTimeout(setTime)
+    clearTimeout(this.props.setTheTime)
     this.setState({pause: true})
   }
 
+  // handleSocketResponse = data => {
+  //   switch (data.type) {
+  //
+  //     case 'ADD_EMOTION':
+  //       this.handleClick()
+  //       break;
+  //     default:
+  //       return data
+  //   }
+  // }
+
+  // {this.props.currentVideo ? <ActionCable
+  //   channel={{channel: 'VideoChannel', video_id: this.props.currentVideo.id}}
+  //   onReceived={this.handleSocketResponse}
+  //   /> : null}
+  
   render() {
 
     return(
       <div className="col-md-8  mb-4 col-centered mx-auto form-white">
-        <Emotions/>
+        {!this.state.pause ? <Emotions/> : null}
         <YouTube
           videoId={this.props.single.id.videoId}
           onReady={this._onReady}
@@ -76,4 +94,4 @@ function mapStateToProps(state){
 	return {...state.userReducer}
 }
 
-export default connect(mapStateToProps, {getUser, cleanTimeEmotion, timeEmotion, handleFunny, getEmotions, getVideos, filterEmotions})(Video);
+export default connect(mapStateToProps, {getUser, setTime, addingEmotion, cleanTimeEmotion, timeEmotion, handleFunny, getEmotions, getVideos, filterEmotions})(Video);

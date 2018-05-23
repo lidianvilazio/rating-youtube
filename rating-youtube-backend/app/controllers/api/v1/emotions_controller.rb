@@ -15,4 +15,5 @@ class Api::V1::EmotionsController < ApplicationController
     @emotion = Emotion.find_or_create_by(video_id: @video.id, user_id: params[:user_id], time: params[:time])
     render json: @emotion
   end
+  
 end

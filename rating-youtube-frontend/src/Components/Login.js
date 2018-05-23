@@ -18,7 +18,7 @@ class Login extends React.Component{
 
 	handleSubmit = (event) => {
 		this.props.login(this.state.username, this.state.password)
-		.then(()=> this.props.history.push("/videos"))
+			.then(()=> localStorage.getItem("token") ? this.props.history.push("/videos") : this.setState({alert: 'nope'}) )
 	}
 
 render(){

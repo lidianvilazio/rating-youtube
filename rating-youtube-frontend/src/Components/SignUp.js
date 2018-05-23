@@ -19,13 +19,16 @@ class Signup extends React.Component {
 	}
 
 	handleSubmit = (event) => {
+
 		if (this.state.password === this.state.passwordConfirmation){
-      
+
       this.props.signup(this.state.email, this.state.name, this.state.username, this.state.password)
-      .then(()=> this.props.history.push("/videos"))
+      .then(()=> localStorage.getItem("token") ? this.props.history.push("/videos") : this.setState({alert: 'nope'}) )
 
 		} else {
+
 			alert("Password should be the same!")
+
 		}
 
 	}

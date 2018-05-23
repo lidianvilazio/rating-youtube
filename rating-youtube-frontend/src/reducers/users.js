@@ -5,7 +5,8 @@ const defaultState = {
 	currentVideo: null,
 	single: null,
 	filteredEmotions: [],
-	timedEmotion: []
+	timedEmotion: [],
+	setTheTime: null
 }
 
 export default function userReducer(state=defaultState, action){
@@ -28,6 +29,8 @@ export default function userReducer(state=defaultState, action){
 			return {...state, timedEmotion: action.payload}
 		case "CLEAN_TIME_EMOTION":
 			return {...state, timedEmotion: []}
+		case 'SET_TIME':
+		  return {...state, setTheTime: action.payload}
 		case "LOGOUT":
 			return defaultState
 		default:

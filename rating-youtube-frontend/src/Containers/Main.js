@@ -5,7 +5,7 @@ import NavBar from '../Components/NavBar';
 import Login from '../Components/Login';
 import Signup from '../Components/Signup';
 import {connect} from 'react-redux'
-// import {getUser, logout} from '../actions/actions'
+import {ActionCableProvider} from 'react-actioncable-provider'
 import {getUser, singleVideo, getEmotions, getVideos, handleVideo, handleFunny, logout} from '../actions/actions'
 
 
@@ -13,7 +13,7 @@ import {getUser, singleVideo, getEmotions, getVideos, handleVideo, handleFunny, 
 class Main extends React.Component {
 
   componentDidMount(){
-		if (localStorage.getItem("token") !== undefined){
+		if (localStorage.getItem("token")){
 			this.props.getUser()
       this.props.getVideos()
       this.props.getEmotions()
