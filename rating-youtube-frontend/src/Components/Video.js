@@ -1,6 +1,5 @@
 import React from 'react'
 import YouTube from 'react-youtube'
-// import { ActionCable } from 'react-actioncable-provider'
 import Emotions from './Emotions'
 import { getUser, setTime, addingEmotion, cleanTimeEmotion, timeEmotion, getEmotions, getVideos, handleFunny, filterEmotions } from '../actions/actions'
 import { connect } from 'react-redux'
@@ -61,30 +60,10 @@ class Video extends React.Component {
     this.setState({pause: true})
   }
 
-  // clearTime = () => {
-  //   return clearInterval(setThisTime)
-  // }
-
-  // handleSocketResponse = data => {
-  //   switch (data.type) {
-  //
-  //     case 'ADD_EMOTION':
-  //       this.handleClick()
-  //       break;
-  //     default:
-  //       return data
-  //   }
-  // }
-
-  // {this.props.currentVideo ? <ActionCable
-  //   channel={{channel: 'VideoChannel', video_id: this.props.currentVideo.id}}
-  //   onReceived={this.handleSocketResponse}
-  //   /> : null}
-
   render() {
 
     return(
-      <div className="col-md-8  mb-4 col-centered mx-auto form-white">
+      <div className='animated fadeInLeft'>
         {!this.state.pause ? <Emotions/> : null}
         <YouTube
           videoId={this.props.single.id.videoId}

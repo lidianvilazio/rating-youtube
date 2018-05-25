@@ -16,7 +16,7 @@ class VideoItem extends React.Component {
   // </div>
   render() {
     return(
-      <div className="col-md-6  mb-4 col-centered mx-auto form-white" onClick={() => {
+      <div className="col-md-6  mb-4 col-centered mx-auto form-white animated fadeInLeft" onClick={() => {
         this.props.handleClick(this.props.video)
       }}>
         <Card inverse>
