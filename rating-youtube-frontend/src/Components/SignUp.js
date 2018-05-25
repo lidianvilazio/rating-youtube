@@ -36,7 +36,7 @@ class Signup extends React.Component {
 render(){
 
   return(
-    <div className="col-md-6  mb-4 col-centered mx-auto form-white">
+    <div className="col-md-6  mb-4 col-centered mx-auto form-white login">
       <div className="card">
         <div className="card-body">
           <h3 className="text-center default-text py-3"><i className="fa fa-lock"></i> SignUp:</h3>

@@ -18,7 +18,7 @@ class Videos extends React.Component {
   }
 
   componentDidMount(){
-		this.props.getEmotions(),
+		this.props.getEmotions()
     this.props.getVideos()
 	}
 
@@ -30,23 +30,25 @@ class Videos extends React.Component {
   }
 
   handleSubmit = term => {
-    clearTimeout(this.props.setTheTime)
+    clearInterval(this.props.setTheTime)
     this.searchYT(term)
     this.setState({clicked: false})
   }
 
   handleClick = (video) => {
+    clearInterval(this.props.setTheTime)
     this.props.singleVideo(video)
     this.props.handleVideo(video)
     this.setState({clicked: true})
   }
 
   back = () => {
+    clearInterval(this.props.setTheTime)
     this.setState({clicked: false})
   }
 
   render() {
-
+    
     const videos = this.state.videos.map(video => {
       if(video.id.videoId !== undefined) {
         return <VideoItem key={video.etag} video={video} handleClick={this.handleClick}/>
@@ -54,7 +56,7 @@ class Videos extends React.Component {
     })
 
     return(
-      <div>
+      <div className="col-md-12  mb-4 col-centered mx-auto form-white">
         <Search handleSubmit={this.handleSubmit} loading={this.state.loading}/>
         {this.state.clicked ? <Video back={this.back}/> : videos}
       </div>

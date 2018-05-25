@@ -9,13 +9,14 @@ import {Provider} from 'react-redux'
 import userReducer from './reducers/users'
 import 'semantic-ui-css/semantic.min.css';
 import thunk from 'redux-thunk'
-import {ActionCableProvider} from 'react-actioncable-provider'
+// import {ActionCableProvider} from 'react-actioncable-provider'
+// <ActionCableProvider url={API_WS_ROOT}></ActionCableProvider>
 
-const API_WS_ROOT = 'ws://localhost:3000/cable'
+// const API_WS_ROOT = 'ws://localhost:3000/cable'
 
 const rootReducer = combineReducers({userReducer})
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
 
-ReactDOM.render(<Router><ActionCableProvider url={API_WS_ROOT}><Provider store={store}><App /></Provider></ActionCableProvider></Router>, document.getElementById('root'));
+ReactDOM.render(<Router><Provider store={store}><App/></Provider></Router>, document.getElementById('root'));

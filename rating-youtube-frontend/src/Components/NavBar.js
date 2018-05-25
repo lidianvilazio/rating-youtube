@@ -8,7 +8,7 @@ const NavBar = () => {
 
     {(localStorage.token) ?
       <React.Fragment>
-        <NavLink className="nav-item nav-link" to="/videos" exact>Videos</NavLink>
+        
       </React.Fragment>
         :
         <React.Fragment>

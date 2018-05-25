@@ -1,7 +1,7 @@
 import React from 'react'
 import {handleVideo} from '../actions/actions'
 import {connect} from 'react-redux'
-import { Card, CardTitle, CardText, CardImg, CardImgOverlay } from 'reactstrap';
+import { Card, CardText, CardImg, CardImgOverlay } from 'reactstrap';
 
 
 class VideoItem extends React.Component {

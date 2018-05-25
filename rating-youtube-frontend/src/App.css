@@ -1,16 +1,30 @@
 .App {
   text-align: center;
   background-color: #ddd;
+  min-height: 1006px;
 
+}
+
+.main {
+  width: 100%;
+  min-height: 915px;
 }
 
 .App-header {
   background-color: #E62117;
-  height: 150px;
+  height: 200px;
   padding: 20px;
   color: white;
+  width: 100%;
 }
 
+/* .main {
+  height: 800px
+} */
+
+div {
+  display: block;
+}
 .App-title {
   font-size: 1.5em;
 }
@@ -23,6 +37,10 @@
   text-decoration: none;
   color: white;
   background: #E62117;
+}
+
+.login {
+  margin-top: 80px;
 }
 
 

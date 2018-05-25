@@ -86,7 +86,6 @@ export function getEmotions(){
 		})
 		.then(res => res.json())
 		.then(emotions => {
-			console.log(emotions);
 			dispatch({
 				type: "GET_EMOTIONS",
 				payload: emotions
@@ -141,7 +140,6 @@ export function handleFunny(video, time, user){
 		})
 		.then(res => res.json())
 		.then(emotion => {
-			console.log(emotion);
 			dispatch({
 				type: "ADD_EMOTION",
 				payload: emotion

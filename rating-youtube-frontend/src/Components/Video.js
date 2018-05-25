@@ -1,11 +1,12 @@
 import React from 'react'
 import YouTube from 'react-youtube'
-import { ActionCable } from 'react-actioncable-provider'
+// import { ActionCable } from 'react-actioncable-provider'
 import Emotions from './Emotions'
 import { getUser, setTime, addingEmotion, cleanTimeEmotion, timeEmotion, getEmotions, getVideos, handleFunny, filterEmotions } from '../actions/actions'
 import { connect } from 'react-redux'
 
 let setThisTime
+let videoTime
 
 class Video extends React.Component {
 
@@ -23,19 +24,27 @@ class Video extends React.Component {
   handleClick = () => {
     if(this.state.pause === false) {
       this.setState({liked: true}, () => {
-        clearTimeout(this.props.setTheTime)
         this._onPlay(this.state.e)
       })
     }
   }
 
   _onPlay = (e) => {
+    clearInterval(this.props.setTheTime)
+    console.log(Math.floor(e.target.getDuration()));
     const emotions = this.props.filterEmotions(this.props.emotions, this.props.currentVideo)
     const time = this.props.timeEmotion
-    const clean = this.props.cleanTimeEmotion
+    const arr = []
+    const pause = this._onPause
     setThisTime = setInterval(function(){
-      const emo = emotions.payload.filter(emotion => emotion.time === Math.floor(e.target.getCurrentTime()))
-      time(emo)
+      if(Math.floor(e.target.getDuration()) === Math.floor(e.target.getCurrentTime())) {
+        time(arr)
+        pause()
+      } else {
+        const emo = emotions.payload.filter(emotion => emotion.time === Math.floor(e.target.getCurrentTime()))
+        time(emo)
+      }
+      console.log(":)");
      }, 1000);
     this.props.setTime(setThisTime)
     this.setState({e: e},() => {
@@ -48,9 +57,13 @@ class Video extends React.Component {
   }
 
   _onPause = (e) => {
-    clearTimeout(this.props.setTheTime)
+    clearInterval(this.props.setTheTime)
     this.setState({pause: true})
   }
+
+  // clearTime = () => {
+  //   return clearInterval(setThisTime)
+  // }
 
   // handleSocketResponse = data => {
   //   switch (data.type) {
@@ -67,7 +80,7 @@ class Video extends React.Component {
   //   channel={{channel: 'VideoChannel', video_id: this.props.currentVideo.id}}
   //   onReceived={this.handleSocketResponse}
   //   /> : null}
-  
+
   render() {
 
     return(
@@ -82,7 +95,7 @@ class Video extends React.Component {
           onPause={this._onPause}
         />
 
-        <button type="button" className="btn button" onClick={this.handleClick}>Funny</button>
+        <button type="button" className="btn button" onClick={this.handleClick}>Like</button>
         <button type="button" className="btn button" onClick={this.props.back}>Back</button>
 
       </div>
