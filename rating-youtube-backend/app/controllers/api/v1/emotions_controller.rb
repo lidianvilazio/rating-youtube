@@ -12,8 +12,8 @@ class Api::V1::EmotionsController < ApplicationController
 
   def create
     @video = Video.find_by(etag:  params[:etag])
-    @emotion = Emotion.find_or_create_by(video_id: @video.id, user_id: params[:user_id], time: params[:time])
+    @emotion = Emotion.find_or_create_by(video_id: @video.id, user_id: params[:user_id], time: params[:time],emotion: params[:emotion])
     render json: @emotion
   end
-  
+
 end

@@ -4,9 +4,10 @@ const defaultState = {
   allVideos: [],
 	currentVideo: null,
 	single: null,
-	filteredEmotions: [],
 	timedEmotion: [],
-	setTheTime: null
+	setTheTime: null,
+	like: [],
+	dislike: []
 }
 
 export default function userReducer(state=defaultState, action){
@@ -17,14 +18,16 @@ export default function userReducer(state=defaultState, action){
 			return {...state, emotions: action.payload}
 		case "GET_VIDEOS":
 			return {...state, allVideos: action.payload}
+		case 'GET_LIKE':
+			return {...state, like: action.payload}
+		case 'GET_DISLIKE':
+				return {...state, dislike: action.payload}
 		case "CREATE_VIDEO":
 			return {...state, currentVideo: action.payload}
 		case "ADD_EMOTION":
 			return {...state, emotions: [...state.emotions, action.payload]}
 		case "SINGLE_VIDEO":
 			return {...state, single: action.payload}
-		case "FILTERED_EMOTION":
-			return {...state, filteredEmotions: action.payload}
 		case "TIME_EMOTION":
 			return {...state, timedEmotion: action.payload}
 		case "CLEAN_TIME_EMOTION":

@@ -3,18 +3,17 @@ import VideoItem from './VideoItem'
 import Search from "./Search"
 import YTSearch from 'youtube-api-search'
 import Video from './Video'
-import {getUser, singleVideo, filterEmotions, getEmotions, getVideos, handleVideo, handleFunny} from '../actions/actions'
+import {getUser, singleVideo, getEmotions, getVideos, handleVideo, handleFunny} from '../actions/actions'
 import {connect} from 'react-redux'
 
-
-const API_KEY = 'AIzaSyAQxqKgl5xQiSkt2hLAldd1hZ5kf8B5eqc'
+const API_KEY = your_api_key
 
 class Videos extends React.Component {
 
   state = {
     videos: [],
     loading: false,
-    clicked: false,
+    clicked: false
   }
 
   componentDidMount(){
@@ -48,7 +47,7 @@ class Videos extends React.Component {
   }
 
   render() {
-    
+
     const videos = this.state.videos.map(video => {
       if(video.id.videoId !== undefined) {
         return <VideoItem key={video.etag} video={video} handleClick={this.handleClick}/>
@@ -68,4 +67,4 @@ function mapStateToProps(state){
 	return {...state.userReducer}
 }
 
-export default connect(mapStateToProps, {getUser, handleVideo, singleVideo, handleFunny, getEmotions, getVideos, filterEmotions})(Videos);
+export default connect(mapStateToProps, {getUser, handleVideo, singleVideo, handleFunny, getEmotions, getVideos})(Videos);

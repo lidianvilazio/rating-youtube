@@ -130,16 +130,17 @@ export function handleVideo(video){
 	}
 }
 
-export function handleFunny(video, time, user){
+export function handleFunny(video, time, user, emotion){
 	const etag = video.etag
 	return (dispatch) => {
 		return fetch(API_URL + "/emotions#create", {
 			method: "POST",
 			headers: authedHeaders(),
-			body: JSON.stringify({etag: etag, user_id: user.id, time: time})
+			body: JSON.stringify({etag: etag, user_id: user.id, time: time, emotion: emotion})
 		})
 		.then(res => res.json())
 		.then(emotion => {
+			console.log(emotion);
 			dispatch({
 				type: "ADD_EMOTION",
 				payload: emotion
@@ -152,13 +153,6 @@ export function singleVideo(video) {
 	return {
 		type: "SINGLE_VIDEO",
 		payload: video
-	}
-}
-
-export function filterEmotions(emotions, currentVideo) {
-	return {
-		type: "FILTERED_EMOTION",
-		payload: emotions.filter(emotion => emotion.video_id === currentVideo.id).sort((a, b) => a.time - b.time)
 	}
 }
 
@@ -186,5 +180,41 @@ export function setTime(time) {
 	return {
 		type: 'SET_TIME',
 		payload: time
+	}
+}
+
+export function getLike(video) {
+	const token = localStorage.getItem("token")
+	return (dispatch) => {
+		return fetch(API_URL + "/videos/" + video.id, {
+			headers: {
+				"Authorization": token
+			}
+		})
+		.then(res => res.json())
+		.then(video => {
+			dispatch({
+				type: "GET_LIKE",
+				payload: video.likes
+			})
+		})
+	}
+}
+
+export function getDislike(video) {
+	const token = localStorage.getItem("token")
+	return (dispatch) => {
+		return fetch(API_URL + "/videos/" + video.id, {
+			headers: {
+				"Authorization": token
+			}
+		})
+		.then(res => res.json())
+		.then(video => {
+			dispatch({
+				type: "GET_DISLIKE",
+				payload: video.dislikes
+			})
+		})
 	}
 }
