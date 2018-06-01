@@ -29,7 +29,7 @@ class Main extends React.Component {
     return (
       <div className='main'>
       <header className="App-header">
-      {localStorage.token ? <button onClick={() => {
+      {localStorage.token ? <button className="btn button" onClick={() => {
         this.props.logout()
         this.props.history.push('/login')
       }}>Logout</button> : null}

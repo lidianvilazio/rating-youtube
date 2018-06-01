@@ -10,8 +10,23 @@
   min-height: 915px;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 .App-header {
   background-color: #E62117;
+  background-image: url("https://images5.aplus.com/uc-up/69258b2e-35b9-4bc2-9104-fac9551c5a90/69258b2e-35b9-4bc2-9104-fac9551c5a90.inline_yes");
+  /* url("http://31.media.tumblr.com/f3fdc36e1971412daa09b032b78b2ef8/tumblr_nvvar3J1KW1tq9q5vo1_400.gif"); */
   height: 200px;
   padding: 20px;
   color: white;
@@ -41,6 +56,11 @@ div {
 
 .login {
   margin-top: 80px;
+}
+
+#pic {
+  width: 100px;
+  height: 100px
 }
 
 

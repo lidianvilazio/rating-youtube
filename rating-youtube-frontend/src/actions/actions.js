@@ -218,3 +218,21 @@ export function getDislike(video) {
 		})
 	}
 }
+
+export function getSurprise(video) {
+	const token = localStorage.getItem("token")
+	return (dispatch) => {
+		return fetch(API_URL + "/videos/" + video.id, {
+			headers: {
+				"Authorization": token
+			}
+		})
+		.then(res => res.json())
+		.then(video => {
+			dispatch({
+				type: "GET_SURPRISE",
+				payload: video.surprises
+			})
+		})
+	}
+}

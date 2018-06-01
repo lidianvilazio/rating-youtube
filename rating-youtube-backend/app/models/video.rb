@@ -9,4 +9,8 @@ class Video < ApplicationRecord
   def dislikes
     self.emotions.select{|emotion| emotion.emotion == "dislike"}
   end
+
+  def surprises
+    self.emotions.select{|emotion| emotion.emotion == "surprise"}
+  end
 end

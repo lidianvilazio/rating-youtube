@@ -22,7 +22,7 @@ class VideoItem extends React.Component {
         <Card inverse>
            <CardImg width="100%" src={this.props.video.snippet.thumbnails.high.url} alt={this.props.video.snippet.description} />
            <CardImgOverlay>
-             <CardText>{this.props.video.snippet.description}</CardText>
+             <CardText>{this.props.video.snippet.title}</CardText>
            </CardImgOverlay>
           </Card>
       </div>

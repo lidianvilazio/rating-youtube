@@ -1,15 +1,13 @@
 import React from 'react'
 import YouTube from 'react-youtube'
-import Emotions from './Emotions'
-import { getUser, setTime, addingEmotion, getDislike, getLike, cleanTimeEmotion, timeEmotion, getEmotions, getVideos, handleFunny } from '../actions/actions'
+import { getUser, getSurprise, setTime, addingEmotion, getDislike, getLike, cleanTimeEmotion, timeEmotion, getEmotions, getVideos, handleFunny } from '../actions/actions'
 import { connect } from 'react-redux'
 import Radar from './Radar'
 import Webcam from 'react-webcam';
 // import Vision from './Vision'
 import vision from "react-cloud-vision-api";
-import smiley from '../images/smiley.jpeg'
-
 // const smiley = require('../public/images/smiley.jpeg')
+import sad from '../images/sad.png'
 
 vision.init({ auth: your_api_key})
 
@@ -25,26 +23,40 @@ class Video extends React.Component {
     v: null,
     emotionType: null,
     imageSrc: null,
-    webcam: null
+    webcam: null,
+    // currentVideo: {}
   }
 
-  componentDidMount() {
-    this.props.getVideos()
-  }
+  // static getDerivedStateFromProps (nextProps, prevState) {
+  //   // console.log(prevState.currentVideo)
+  //   // console.log(nextProps.currentVideo);
+  //   if (nextProps.currentVideo) {
+  //     console.log("FETCHING");
+  //     nextProps.getSurprise(nextProps.currentVideo)
+  //     nextProps.getLike(nextProps.currentVideo)
+  //     nextProps.getDislike(nextProps.currentVideo)
+  //   }
+  //   //   return {
+  //   //     currentVideo: nextProps.currentVideo
+  //   //   }
+  //   // }
+  //
+  // }
+
+  // shouldComponentUpdate(nextProps) {
+  //   return this.props.currentVideo && this.props.currentVideo.id !== nextProps.currentVideo.id
+  // }
 
   setRef = (webcam) => {
     this.setState({webcam: webcam})
   }
 
   capture = () => {
-    // const imageSrc = this.state.webcam.getScreenshot();
-    // this.setState({imageSrc: this.state.webcam.getScreenshot()})
     return this.state.webcam.getScreenshot()
   };
 
   handleClick = (e) => {
     if(this.state.pause === false) {
-      // console.log(e);
       this.setState({liked: true, emotionType: e}, () => {
         this._onPlay(this.state.e)
         this.imgOut()
@@ -58,23 +70,20 @@ class Video extends React.Component {
 
   _onPlay = (e) => {
     clearInterval(this.props.setTheTime)
-    this.props.getLike(this.props.currentVideo)
-    this.props.getDislike(this.props.currentVideo)
     const like = this.props.like
-    const time = this.props.timeEmotion
-    const arr = []
     const pause = this._onPause
     const capture = this.capture
-    const pauseIf = this.state.pause
     const getPic = this.getPic
     const getEmotion = this.getEmotion
+    this.props.getLike(this.props.currentVideo)
+    this.props.getDislike(this.props.currentVideo)
+    this.props.getSurprise(this.props.currentVideo)
+    // console.log(":)");
     setThisTime = setInterval(function(){
       if(Math.floor(e.target.getDuration()) === Math.floor(e.target.getCurrentTime())) {
-        time(arr)
         pause()
       } else {
-        const emo = like.filter(emotion => emotion.time === Math.floor(e.target.getCurrentTime()))
-        time(emo)
+        // const emo = like.filter(emotion => emotion.time === Math.floor(e.target.getCurrentTime()))
         getEmotion(getPic(capture()))
       }
      }, 1000);
@@ -112,11 +121,13 @@ class Video extends React.Component {
       // console.log(res.responses);
       // console.log(res.responses[0].faceAnnotations);
       if(res.responses[0].faceAnnotations) {
-        console.log(res.responses[0].faceAnnotations[0].joyLikelihood);
+        // console.log(res.responses[0].faceAnnotations[0]);
         if(res.responses[0].faceAnnotations[0].joyLikelihood === "VERY_LIKELY") {
           this.handleClick('like')
         } else if(res.responses[0].faceAnnotations[0].sorrowLikelihood === 'POSSIBLE' || res.responses[0].faceAnnotations[0].sorrowLikelihood === 'LIKELY' || res.responses[0].faceAnnotations[0].sorrowLikelihood === 'VERY_LIKELY') {
           this.handleClick('dislike')
+        } else if(res.responses[0].faceAnnotations[0].surpriseLikelihood === "VERY_LIKELY") {
+          this.handleClick('surprise')
         }
       } else {
         console.log('error');
@@ -138,9 +149,19 @@ class Video extends React.Component {
 // {!this.state.pause ? <Emotions/> : null}
   render() {
     // console.log(this.state.emotionType);
+    // console.log(this.props);
     return(
-      <div className='col-md-12  mb-12 animated fadeInLeft'>
-        <div className='col-md-12'>
+      <section className='row'>
+        <div className='col-md animated fadeInRight'>
+          <Webcam
+            audio={false}
+            height={350}
+            ref={this.setRef}
+            screenshotFormat="image/jpeg"
+            width={350}
+          />
+        </div>
+        <div className='col-md animated fadeInLeft'>
           <YouTube
             videoId={this.props.single.id.videoId}
             onReady={this._onReady}
@@ -149,20 +170,17 @@ class Video extends React.Component {
             onPlay={this._onPlay}
             onPause={this._onPause}
           />
-          <Webcam
-            audio={false}
-            height={350}
-            ref={this.setRef}
-            screenshotFormat="image/jpeg"
-            width={350}
-          />
           </div>
+          <div className='col-md animated fadeInLeft'>{this.props.currentVideo ? <Radar/> : null}</div>
+          <div className='col-md animated fadeInRight'>
             <button type="button" value='dislike' className="btn button" onClick={this.handleButton}>Dislike</button>
             <button type="button" value='like' className="btn button" onClick={this.handleButton}>Like</button>
             <button type="button" className="btn button" onClick={this.props.back}>Back</button>
-            {this.state.emotionType === 'like' ? <img src={smiley}/> : null}
-        <div className='col-md-4'><Radar/></div>
-      </div>
+            {this.state.emotionType === 'like' ? <img id='pic' src='https://orig00.deviantart.net/c907/f/2010/211/e/e/large_happy_face_by_poison_is_my_koolaid.gif'/> : null}
+            {this.state.emotionType === 'dislike' ? <img id='pic' src={sad}/> : null}
+            {this.state.emotionType === 'surprise' ? <img id='pic' src='https://www.shareicon.net/data/2016/10/25/847427_surprised_512x512.png'/> : null}
+          </div>
+      </section>
 
     )
   }
@@ -172,4 +190,4 @@ function mapStateToProps(state){
 	return {...state.userReducer}
 }
 
-export default connect(mapStateToProps, {getUser, getDislike, setTime, getLike, addingEmotion, cleanTimeEmotion, timeEmotion, handleFunny, getEmotions, getVideos})(Video);
+export default connect(mapStateToProps, {getUser, getSurprise, getDislike, setTime, getLike, addingEmotion, cleanTimeEmotion, timeEmotion, handleFunny, getEmotions, getVideos})(Video);

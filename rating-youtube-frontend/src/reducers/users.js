@@ -7,7 +7,8 @@ const defaultState = {
 	timedEmotion: [],
 	setTheTime: null,
 	like: [],
-	dislike: []
+	dislike: [],
+	surprise: []
 }
 
 export default function userReducer(state=defaultState, action){
@@ -22,6 +23,8 @@ export default function userReducer(state=defaultState, action){
 			return {...state, like: action.payload}
 		case 'GET_DISLIKE':
 				return {...state, dislike: action.payload}
+		case 'GET_SURPRISE':
+				return {...state, surprise: action.payload}
 		case "CREATE_VIDEO":
 			return {...state, currentVideo: action.payload}
 		case "ADD_EMOTION":
