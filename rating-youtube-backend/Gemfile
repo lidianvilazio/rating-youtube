@@ -27,6 +27,7 @@ gem 'pry-rails', '~> 0.3.4'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'active_model_serializers', '0.10.0'
 gem 'jwt'
+gem 'sprockets', '~> 4.0'
 
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible

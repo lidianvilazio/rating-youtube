@@ -9,7 +9,7 @@ import vision from "react-cloud-vision-api";
 // const smiley = require('../public/images/smiley.jpeg')
 import sad from '../images/sad.png'
 
-vision.init({ auth: 'your_api_key'})
+vision.init({ auth: "your_api_key"})
 
 let setThisTime
 let videoTime

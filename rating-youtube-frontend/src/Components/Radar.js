@@ -72,33 +72,33 @@ class Radar extends React.Component {
       }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-    const data = [prevProps.like.length, prevProps.dislike.length, prevProps.surprise.length]
-    console.log(data);
-    if(this.state.data.datasets[0].data[0] < prevProps.like.length || this.state.data.datasets[0].data[1] < prevProps.dislike.length || this.state.data.datasets[0].data[1] < prevProps.surprise.length || prevProps.currentVideo.id !== prevState.currentVideo.id) {
-      this.setState({data: {
-          labels: [
-             'Like',
-             'Dislike',
-             'Surprise',
-           ],
-           datasets: [{
-             data: data,
-             backgroundColor: [
-             '#E62117',
-             '#808080',
-             '#101010',
-             ],
-             hoverBackgroundColor: [
-             '#E62117',
-             '#808080',
-             '#101010',
-             ]
-           }]
-         }
-       })
-     }
-   }
+   //  componentDidUpdate(prevProps, prevState) {
+   //  const data = [prevProps.like.length, prevProps.dislike.length, prevProps.surprise.length]
+   //  console.log(data);
+   //  if(this.state.data.datasets[0].data[0] < prevProps.like.length || this.state.data.datasets[0].data[1] < prevProps.dislike.length || this.state.data.datasets[0].data[1] < prevProps.surprise.length || prevProps.currentVideo.id !== prevState.currentVideo.id) {
+   //    this.setState({data: {
+   //        labels: [
+   //           'Like',
+   //           'Dislike',
+   //           'Surprise',
+   //         ],
+   //         datasets: [{
+   //           data: data,
+   //           backgroundColor: [
+   //           '#E62117',
+   //           '#808080',
+   //           '#101010',
+   //           ],
+   //           hoverBackgroundColor: [
+   //           '#E62117',
+   //           '#808080',
+   //           '#101010',
+   //           ]
+   //         }]
+   //       }
+   //     })
+   //   }
+   // }
 
 
   render() {
