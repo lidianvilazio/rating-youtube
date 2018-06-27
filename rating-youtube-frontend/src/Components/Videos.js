@@ -6,7 +6,7 @@ import Video from './Video'
 import {getUser, singleVideo, getEmotions, getVideos, handleVideo, handleFunny} from '../actions/actions'
 import {connect} from 'react-redux'
 
-const API_KEY = your_api_key
+const API_KEY = "your_api_key"
 
 class Videos extends React.Component {
 
